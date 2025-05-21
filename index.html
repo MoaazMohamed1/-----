@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ملاحظاتي - موقع الملاحظات المتكامل</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>">
+</head>
+<body class="light-mode">
+    <div id="loader" class="loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <p>جاري التحميل...</p>
+        </div>
+    </div>
+
+    <div id="authSection" class="auth-section">
+        <div class="auth-container">
+            <div class="auth-header">
+                <h2>مرحباً بعودتك!</h2>
+                <p>سجل الدخول للوصول إلى ملاحظاتك</p>
+            </div>
+            <div class="auth-form">
+                <div class="input-group">
+                    <label for="usernameInput">اسم المستخدم</label>
+                    <input type="text" id="usernameInput" placeholder="أدخل اسم المستخدم">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="input-group">
+                    <label for="passwordInput">كلمة المرور</label>
+                    <input type="password" id="passwordInput" placeholder="أدخل كلمة المرور">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <button id="loginBtn" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+                </button>
+                <button id="registerBtn" class="btn btn-secondary">
+                    <i class="fas fa-user-plus"></i> إنشاء حساب جديد
+                </button>
+                <p id="authMessage" class="auth-message"></p>
+            </div>
+            <div class="auth-footer">
+                <button id="toggleThemeBtn" class="theme-toggle">
+                    <i class="fas fa-moon"></i> الوضع المظلم
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="appSection" class="container" style="display: none;">
+        <div class="app-header">
+            <div class="header-left">
+                <button id="sidebarToggle" class="btn btn-icon">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1><i class="fas fa-book-open"></i> ملاحظاتي</h1>
+            </div>
+            <div class="header-right">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="ابحث في الملاحظات...">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="user-actions">
+                    <button id="toggleThemeBtn2" class="btn btn-icon" title="تبديل الوضع">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <div class="user-dropdown">
+                        <button id="userDropdownBtn" class="btn btn-icon">
+                            <i class="fas fa-user-circle"></i>
+                        </button>
+                        <div id="userDropdownMenu" class="dropdown-menu">
+                            <div class="dropdown-header">
+                                <i class="fas fa-user-circle"></i>
+                                <span id="currentUsername"></span>
+                            </div>
+                            <button id="logoutBtn" class="dropdown-item">
+                                <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="app-container">
+            <div id="sidebar" class="sidebar">
+                <div class="sidebar-menu">
+                    <button class="sidebar-item active" data-category="الكل">
+                        <i class="fas fa-home"></i> الرئيسية
+                    </button>
+                    <button class="sidebar-item" data-category="عام">
+                        <i class="fas fa-sticky-note"></i> ملاحظات عامة
+                    </button>
+                    <button class="sidebar-item" data-category="عمل">
+                        <i class="fas fa-briefcase"></i> العمل
+                    </button>
+                    <button class="sidebar-item" data-category="دراسة">
+                        <i class="fas fa-graduation-cap"></i> الدراسة
+                    </button>
+                    <button class="sidebar-item" data-category="أفكار">
+                        <i class="fas fa-lightbulb"></i> أفكار
+                    </button>
+                    <button class="sidebar-item" data-category="مهم">
+                        <i class="fas fa-star"></i> المهم
+                    </button>
+                </div>
+                <div class="sidebar-footer">
+                    <button id="newNoteBtn" class="btn btn-primary btn-block">
+                        <i class="fas fa-plus"></i> ملاحظة جديدة
+                    </button>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="notes-actions">
+                    <div class="filter-controls">
+                        <div class="filter-group">
+                            <label>ترتيب حسب:</label>
+                            <select id="sortBy">
+                                <option value="newest">الأحدث أولاً</option>
+                                <option value="oldest">الأقدم أولاً</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>تصفية:</label>
+                            <select id="filterCategory">
+                                <option value="الكل">الكل</option>
+                                <option value="عام">عام</option>
+                                <option value="عمل">عمل</option>
+                                <option value="دراسة">دراسة</option>
+                                <option value="أفكار">أفكار</option>
+                                <option value="مهم">مهم</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="importantOnly"> المهم فقط
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="notes-grid" id="notesDisplay"></div>
+
+                <div id="emptyState" class="empty-state">
+                    <i class="fas fa-book-open"></i>
+                    <h3>لا توجد ملاحظات لعرضها</h3>
+                    <p>ابدأ بإضافة ملاحظة جديدة بالضغط على الزر بالأعلى</p>
+                    <button id="emptyStateNewNoteBtn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> إنشاء ملاحظة جديدة
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="note-editor" id="noteEditor">
+            <div class="editor-header">
+                <h3 id="editorTitle">ملاحظة جديدة</h3>
+                <button id="closeEditorBtn" class="btn btn-icon">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="editor-body">
+                <textarea id="noteInput" placeholder="اكتب ملاحظتك هنا..."></textarea>
+                <div class="editor-footer">
+                    <div class="editor-actions">
+                        <select id="noteCategory">
+                            <option value="عام">عام</option>
+                            <option value="عمل">عمل</option>
+                            <option value="دراسة">دراسة</option>
+                            <option value="أفكار">أفكار</option>
+                            <option value="مهم">مهم</option>
+                        </select>
+                        <div class="file-upload">
+                            <label for="fileInput" class="btn btn-secondary">
+                                <i class="fas fa-paperclip"></i> إرفاق ملف
+                                <input type="file" id="fileInput" style="display: none;">
+                            </label>
+                            <span id="fileName"></span>
+                        </div>
+                    </div>
+                    <div class="editor-buttons">
+                        <button id="cancelNoteBtn" class="btn btn-secondary">إلغاء</button>
+                        <button id="saveNoteBtn" class="btn btn-primary">حفظ الملاحظة</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="alertContainer"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
